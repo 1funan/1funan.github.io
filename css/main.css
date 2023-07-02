@@ -2242,7 +2242,8 @@ header.header {
   }
 }
 .site-brand-container {
-  background: url("https://picdm.sunbangyan.cn/2023/07/02/qtelxz.png");
+  background: url("https://img1.imgtp.com/2023/07/02/2taGQgsq.jpg");
+  background-size: cover;
 }
 @media (max-width: 991px) {
   .site-nav-on .site-brand-container {
