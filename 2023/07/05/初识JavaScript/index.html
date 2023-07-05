@@ -27,7 +27,7 @@
 <meta property="og:description" content="JavaScript是Web编程语言。绝大多数网站都使用JavaScript，所有现代Wdb浏览器(无论是桌面、平板还是手机浏览器)都包含JavaScript解释器，这让JavaScript成为有史以来部署最广泛的编程语言。过去十年，Node.js让浏览器之外的JavaScript编程成为可能，Node的巨大成功意味着JavaScript如今也是软件开发者最常用的编程语言。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-07-04T16:00:29.000Z">
-<meta property="article:modified_time" content="2023-07-05T04:45:25.583Z">
+<meta property="article:modified_time" content="2023-07-05T05:00:13.838Z">
 <meta property="article:author" content="Kaos">
 <meta property="article:tag" content="HTML">
 <meta name="twitter:card" content="summary">
@@ -102,7 +102,7 @@
   
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -115,6 +115,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#JavaScript%E7%9A%84%E7%AE%97%E6%9C%AF"><span class="nav-number">1.1.</span> <span class="nav-text">JavaScript的算术</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E6%9C%AC%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="nav-number">1.2.</span> <span class="nav-text">文本字符串</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E6%9D%BF%E5%AD%97%E9%9D%A2%E9%87%8F"><span class="nav-number">1.2.1.</span> <span class="nav-text">模板字面量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D"><span class="nav-number">1.2.2.</span> <span class="nav-text">模式匹配</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#null%E4%B8%8Eundefined"><span class="nav-number">1.3.</span> <span class="nav-text">null与undefined</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%A6%E5%8F%B7"><span class="nav-number">1.4.</span> <span class="nav-text">符号</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%98%E9%87%8F%E5%A3%B0%E6%98%8E%E4%B8%8E%E8%B5%8B%E5%80%BC"><span class="nav-number">1.5.</span> <span class="nav-text">变量声明与赋值</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-let-%E5%92%8C-const-%E5%A3%B0%E6%98%8E"><span class="nav-number">1.5.1.</span> <span class="nav-text">使用 let 和 const 声明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%98%E9%87%8F%E5%92%8C%E5%B8%B8%E9%87%8F%E4%BD%9C%E7%94%A8%E5%9F%9F"><span class="nav-number">1.5.2.</span> <span class="nav-text">变量和常量作用域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8var%E7%9A%84%E5%8F%98%E9%87%8F%E5%A3%B0%E6%98%8E"><span class="nav-number">1.5.3.</span> <span class="nav-text">使用var的变量声明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E6%9E%84%E8%B5%8B%E5%80%BC"><span class="nav-number">1.5.4.</span> <span class="nav-text">解构赋值</span></a></li></ol></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -206,7 +207,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2023-07-05 00:00:29 / 修改时间：12:45:25" itemprop="dateCreated datePublished" datetime="2023-07-05T00:00:29+08:00">2023-07-05</time>
+      <time title="创建时间：2023-07-05 00:00:29 / 修改时间：13:00:13" itemprop="dateCreated datePublished" datetime="2023-07-05T00:00:29+08:00">2023-07-05</time>
     </span>
 
   
@@ -216,7 +217,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>2.1k</span>
+      <span>2k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
@@ -266,21 +267,21 @@
 <li>字符串可以用’string’ “string” `string`来表示，其中 ``具有Python中类似于eval的作用，会将${}括号里的表达式进行运算然后返回到字符串进行拼接</li>
 <li>在ES5后，我们可以用\来连接字符串从而让字符串可以多行输入，例如:<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;one\</span></span><br><span class="line"><span class="string">long\</span></span><br><span class="line"><span class="string">line&quot;</span>       <span class="regexp">//</span>这会返回一个<span class="string">&quot;onelongline&quot;</span>的字符串。</span><br></pre></td></tr></table></figure></li>
 </ul>
-<h3 id="1-模板字面量"><a href="#1-模板字面量" class="headerlink" title="1.模板字面量"></a>1.模板字面量</h3><p>在ES6及之后的版本中，字符串字面量可以用反引号来定界:<br><code> let s = `hello world`</code><br>模板字面量可以包含任意JavaScript表达式。反引号中字符串字面量最终值的计算，涉及对其中包含的所有表达式求值，将这些表达式的值转换为字符串，然后再把这些字符串与反引号中的字面量组合:</p>
+<h3 id="模板字面量"><a href="#模板字面量" class="headerlink" title="模板字面量"></a>模板字面量</h3><p>在ES6及之后的版本中，字符串字面量可以用反引号来定界:<br><code> let s = `hello world`</code><br>模板字面量可以包含任意JavaScript表达式。反引号中字符串字面量最终值的计算，涉及对其中包含的所有表达式求值，将这些表达式的值转换为字符串，然后再把这些字符串与反引号中的字面量组合:</p>
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">name</span> = <span class="string">&quot;Bill&quot;</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">greeting</span> = <span class="symbol">&#x27;Hello</span> $&#123;name&#125;.;         <span class="comment">//greeting = &quot;Hello Bill.&quot;</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="2-模式匹配"><a href="#2-模式匹配" class="headerlink" title="2.模式匹配"></a>2.模式匹配</h3><p>JavaScript定义了一种被称为正则表达式(RegExp)的数据类型，用于描述和匹配文本中的字符串模式。例如:</p>
+<h3 id="模式匹配"><a href="#模式匹配" class="headerlink" title="模式匹配"></a>模式匹配</h3><p>JavaScript定义了一种被称为正则表达式(RegExp)的数据类型，用于描述和匹配文本中的字符串模式。例如:</p>
 <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="regexp">/^HTML/</span>             <span class="regexp">//</span>匹配字符串开头的字母HTML</span><br><span class="line"><span class="regexp">/[1-9][0-9]*/</span>         <span class="regexp">//</span>匹配非<span class="number">0</span>数字，后面跟着任意数字</span><br><span class="line"><span class="regexp">/\bJavaScript\b/i</span>   <span class="regexp">//</span>匹配JavaScript这个词，不区分大小写</span><br></pre></td></tr></table></figure>
 <p>RegExp对象定义了一些有用的方法，而字符串也有接收RegExp参数的方法。例如:</p>
 <figure class="highlight openscad"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">let</span> <span class="built_in">text</span> = <span class="string">&quot;testing: 1, 2, 3&quot;</span>;</span><br><span class="line"><span class="built_in">let</span> pattern = /\d+/g;           <span class="comment">// 匹配一个或多个数字</span></span><br><span class="line">pattern.test(<span class="built_in">text</span>);             <span class="comment">// =&gt;true存在匹配项</span></span><br><span class="line"><span class="built_in">text</span>.<span class="built_in">search</span>(pattern);           <span class="comment">// =&gt;9 第一匹配位置</span></span><br></pre></td></tr></table></figure>
 
 <h2 id="null与undefined"><a href="#null与undefined" class="headerlink" title="null与undefined"></a>null与undefined</h2><p>null 是一个关键词，通常用于表示某个值不存在，undefined表示的是更深层次的不存在，变量的值未初始化就是一种undefined</p>
 <h2 id="符号"><a href="#符号" class="headerlink" title="符号"></a>符号</h2><p>符号是ES6新增的一种原始类型，用作非字符串的属性名，它永远不会返回相同的值，值和变量名是一一对应的。</p>
-<h2 id="变量声明与赋值"><a href="#变量声明与赋值" class="headerlink" title="变量声明与赋值"></a>变量声明与赋值</h2><h3 id="1-使用-let-和-const-声明"><a href="#1-使用-let-和-const-声明" class="headerlink" title="1.使用 let 和 const 声明"></a>1.使用 let 和 const 声明</h3><p>在现代JavaScript(ES6及之后)中，变量是通过 let 关键字声明的(我个人觉得这有点像是Java里的var):</p>
+<h2 id="变量声明与赋值"><a href="#变量声明与赋值" class="headerlink" title="变量声明与赋值"></a>变量声明与赋值</h2><h3 id="使用-let-和-const-声明"><a href="#使用-let-和-const-声明" class="headerlink" title="使用 let 和 const 声明"></a>使用 let 和 const 声明</h3><p>在现代JavaScript(ES6及之后)中，变量是通过 let 关键字声明的(我个人觉得这有点像是Java里的var):</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">let</span> i;</span><br><span class="line"><span class="built_in">let</span> <span class="built_in">sum</span>;</span><br></pre></td></tr></table></figure>
 
 <p>要声明常量而非变量，则要使用 const 而非 let<sup><font color = red><b>3</b></font></sup>。const 与 let 相似，区别在于const必须在声明时初始化变量。</p>
-<h3 id="2-变量和常量作用域"><a href="#2-变量和常量作用域" class="headerlink" title="2.变量和常量作用域"></a>2.变量和常量作用域</h3><p>变量作用域是程序源代码中一个区域，在这个区域内变量有定义。通过 let 和 const 声明的变量和常量具有块作用域。这意味着它们只在 let 和 const 语句所在的代码块中有定义。<strong>JavaScript类和函数的函数体是代码块，if&#x2F;else语句的语句体、while和for循环的循环体都是代码块</strong><sup><font color = red><b>4</b></font></sup>。</p>
+<h3 id="变量和常量作用域"><a href="#变量和常量作用域" class="headerlink" title="变量和常量作用域"></a>变量和常量作用域</h3><p>变量作用域是程序源代码中一个区域，在这个区域内变量有定义。通过 let 和 const 声明的变量和常量具有块作用域。这意味着它们只在 let 和 const 语句所在的代码块中有定义。<strong>JavaScript类和函数的函数体是代码块，if&#x2F;else语句的语句体、while和for循环的循环体都是代码块</strong><sup><font color = red><b>4</b></font></sup>。</p>
 <blockquote>
 <ol start="3">
 <li>粗略的讲，如果变量或常量声明在一对花括号中，那么这对花括号就是一个代码块。</li>
@@ -290,14 +291,14 @@
 <figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">const x <span class="operator">=</span> <span class="number">1</span><span class="comment">;        //声明x为全局变量</span></span><br><span class="line">if (x <span class="operator">=</span><span class="operator">=</span><span class="operator">=</span> <span class="number">1</span>)&#123;</span><br><span class="line">    let x <span class="operator">=</span> <span class="number">2</span><span class="comment">;      //在同一个代码块中，x可以引用不同的值</span></span><br><span class="line">    console.log(x)  //打印输出<span class="number">2</span></span><br><span class="line">&#125;</span><br><span class="line">console.log(x)<span class="comment">;</span></span><br><span class="line">let x <span class="operator">=</span> <span class="number">3</span><span class="comment">;          //错误! 重新声明x会导致语法错误</span></span><br></pre></td></tr></table></figure>
 <p>值得注意的是，在JavaScript中，给一个变量赋一个数值，然后再给它赋一个字符串是合法的:</p>
 <figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let i <span class="operator">=</span> <span class="number">10</span><span class="comment">;</span></span><br><span class="line"><span class="attribute">i</span> <span class="operator">=</span> <span class="string">&quot;ten&quot;</span><span class="comment">;</span></span><br></pre></td></tr></table></figure>
-<h3 id="3-使用var的变量声明"><a href="#3-使用var的变量声明" class="headerlink" title="3.使用var的变量声明"></a>3.使用var的变量声明</h3><p>在ES6之前的JavaScript中，声明变量的唯一方式是使用var关键字，无法声明常量。var 的语法与 let 的语法相同。<br>虽然 var 和 let 具有相同的语法，但它们也有重要的区别:</p>
+<h3 id="使用var的变量声明"><a href="#使用var的变量声明" class="headerlink" title="使用var的变量声明"></a>使用var的变量声明</h3><p>在ES6之前的JavaScript中，声明变量的唯一方式是使用var关键字，无法声明常量。var 的语法与 let 的语法相同。<br>虽然 var 和 let 具有相同的语法，但它们也有重要的区别:</p>
 <ul>
 <li>使用 var 声明的变量不具有块作用域。这种变量的作用域仅限于包含函数的函数体，无论它们在函数中嵌套的层次有多深。</li>
 <li>如果在函数外部使用 var ，则会声明一个全局变量。但通过 var 声明的全局变量与通过 let 声明的全局变量有一个重要区别。通过 var 声明的全局变量被实现为全局对象的属性。全局对象可以通过globalThis引用。因此，如果你在函数外部写了 <code> var = 2 ;</code>就相当于写了<code>globalThis.x = 2;</code></li>
 <li>与通过 let 声明的变量不同，使用 var 多次声明同名变量是合法的</li>
 <li>var 声明的一个最不同寻常的特性就是作用域提升。在使用 var 声明变量时，该声明会被提高到包含函数的顶部。但代码初始化仍然在代码所在位置完成，只有变量的定义转移到了函数顶部。因此对使用 var 声明的变量，可以在包含函数内部的任何地方使用而不会报错。如果初始化代码尚未运行，则变量的值可能是undefined。但初始化前是可以使用变量而不报错的，这可能会成为一个bug的来源。</li>
 </ul>
-<h3 id="4-解构赋值"><a href="#4-解构赋值" class="headerlink" title="4.解构赋值"></a>4.解构赋值</h3><p>ES6实现了一种复合声明与赋值语法，叫做解构赋值。这其实有点像是Python里的“元组拆包，平行赋值”。下面是解构赋值的一段代码示例:</p>
+<h3 id="解构赋值"><a href="#解构赋值" class="headerlink" title="解构赋值"></a>解构赋值</h3><p>ES6实现了一种复合声明与赋值语法，叫做解构赋值。这其实有点像是Python里的“元组拆包，平行赋值”。下面是解构赋值的一段代码示例:</p>
 <figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">let <span class="selector-attr">[x,y]</span> = <span class="selector-attr">[1,2]</span>       <span class="comment">//相当于 let x = 1,y = 2</span></span><br><span class="line"><span class="selector-attr">[x,y]</span> = <span class="selector-attr">[x+1,y+1]</span>       <span class="comment">//相当于 x = x + 1,y = y + 1</span></span><br><span class="line"><span class="selector-attr">[x,y]</span> = <span class="selector-attr">[y,x]</span>           <span class="comment">//交换两个变量的值此时[x,y] = [3,2]</span></span><br></pre></td></tr></table></figure>
 
     </div>
