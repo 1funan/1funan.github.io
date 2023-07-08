@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/QD.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/QD.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.17.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"mac"},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="模块化编程的目标是能够用不同作者和来源的代码模块组装成大程序，即使不同模块的作者无法预知如何使用，代码仍然可以正确运行。实践中，模块化的作用主要体现在封装和隐藏私有实现细节，以及保证全局命名空间清洁上，因而模块之间不会意外修改各自定义的变量、函数和类。ES6使用import和export关键字定义了自己的模块。尽管import和export在多年前就已经被列为这门语言的关键字，但直到最近才真正被浏">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript模块">
+<meta property="og:url" content="http://example.com/2023/07/08/JavaScript%E6%A8%A1%E5%9D%97/index.html">
+<meta property="og:site_name">
+<meta property="og:description" content="模块化编程的目标是能够用不同作者和来源的代码模块组装成大程序，即使不同模块的作者无法预知如何使用，代码仍然可以正确运行。实践中，模块化的作用主要体现在封装和隐藏私有实现细节，以及保证全局命名空间清洁上，因而模块之间不会意外修改各自定义的变量、函数和类。ES6使用import和export关键字定义了自己的模块。尽管import和export在多年前就已经被列为这门语言的关键字，但直到最近才真正被浏">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-07-08T10:16:46.000Z">
+<meta property="article:modified_time" content="2023-07-08T11:37:41.043Z">
+<meta property="article:author" content="Kaos">
+<meta property="article:tag" content="HTML">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2023/07/08/JavaScript%E6%A8%A1%E5%9D%97/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2023/07/08/JavaScript%E6%A8%A1%E5%9D%97/","path":"2023/07/08/JavaScript模块/","title":"JavaScript模块"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>JavaScript模块 | </title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+  <!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/clicklove.js"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title"></p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Seize The Day</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-首页"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-关于"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-标签"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-归档"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E7%B1%BB%E3%80%81%E5%AF%B9%E8%B1%A1%E5%92%8C%E9%97%AD%E5%8C%85%E7%9A%84%E6%A8%A1%E5%9D%97"><span class="nav-number">1.1.</span> <span class="nav-text">基于类、对象和闭包的模块</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E9%97%AD%E5%8C%85%E7%9A%84%E8%87%AA%E5%8A%A8%E6%A8%A1%E5%9D%97%E5%8C%96"><span class="nav-number">1.1.1.</span> <span class="nav-text">基于闭包的自动模块化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Node%E4%B8%AD%E7%9A%84%E6%A8%A1%E5%9D%97"><span class="nav-number">1.2.</span> <span class="nav-text">Node中的模块</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Node-%E7%9A%84%E5%AF%BC%E5%87%BA"><span class="nav-number">1.2.1.</span> <span class="nav-text">Node 的导出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Node-%E7%9A%84%E5%AF%BC%E5%85%A5"><span class="nav-number">1.2.2.</span> <span class="nav-text">Node 的导入</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ES6-%E4%B8%AD%E7%9A%84%E6%A8%A1%E5%9D%97"><span class="nav-number">1.3.</span> <span class="nav-text">ES6 中的模块</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ES6-%E7%9A%84%E5%AF%BC%E5%87%BA"><span class="nav-number">1.3.1.</span> <span class="nav-text">ES6 的导出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ES6-%E7%9A%84%E5%AF%BC%E5%85%A5"><span class="nav-number">1.3.2.</span> <span class="nav-text">ES6 的导入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%BC%E5%85%A5%E5%92%8C%E5%AF%BC%E5%87%BA%E6%97%B6%E9%87%8D%E5%91%BD%E5%90%8D"><span class="nav-number">1.3.3.</span> <span class="nav-text">导入和导出时重命名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%8D%E5%AF%BC%E5%87%BA"><span class="nav-number">1.3.4.</span> <span class="nav-text">再导出</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-number">1.4.</span> <span class="nav-text">小结</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Kaos"
+      src="/images/sad.jpg">
+  <p class="site-author-name" itemprop="name">Kaos</p>
+  <div class="site-description" itemprop="description">种一棵树最好的时间是十年前,其次是现在</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/1funan" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;1funan" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://v.douyin.com/iFHTugs/" title="抖音 → https:&#x2F;&#x2F;v.douyin.com&#x2F;iFHTugs&#x2F;" rel="noopener me" target="_blank"><i class="fab custom douyin fa-fw"></i>抖音</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://b23.tv/WnMIYnG" title="哔哩哔哩 → https:&#x2F;&#x2F;b23.tv&#x2F;WnMIYnG" rel="noopener me" target="_blank"><i class="fab custom bili fa-fw"></i>哔哩哔哩</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/zi-liu-zi-liu-98" title="知乎 → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;zi-liu-zi-liu-98" rel="noopener me" target="_blank"><i class="fab custom zhihu fa-fw"></i>知乎</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/07/08/JavaScript%E6%A8%A1%E5%9D%97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/sad.jpg">
+      <meta itemprop="name" content="Kaos">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="种一棵树最好的时间是十年前,其次是现在">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="JavaScript模块 | ">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          JavaScript模块
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2023-07-08 18:16:46 / 修改时间：19:37:41" itemprop="dateCreated datePublished" datetime="2023-07-08T18:16:46+08:00">2023-07-08</time>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.8k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>6 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>模块化编程的目标是能够用不同作者和来源的代码模块组装成大程序，即使不同模块的作者无法预知如何使用，代码仍然可以正确运行。实践中，模块化的作用主要体现在封装和隐藏私有实现细节，以及保证全局命名空间清洁上，因而模块之间不会意外修改各自定义的变量、函数和类。ES6使用import和export关键字定义了自己的模块。尽管import和export在多年前就已经被列为这门语言的关键字，但直到最近才真正被浏览器和Node实现。实践中，JavaScript的模块化仍然依赖代码打包工具。</p>
+<span id="more"></span>
+<h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>本章的主要内容包括:</p>
+<ul>
+<li>基于类、对象和闭包的模块</li>
+<li>Node中使用require()的模块</li>
+<li>ES6中使用export、import和import()的模块</li>
+</ul>
+<h2 id="基于类、对象和闭包的模块"><a href="#基于类、对象和闭包的模块" class="headerlink" title="基于类、对象和闭包的模块"></a>基于类、对象和闭包的模块</h2><p>尽管可能显而易见，但还是有必要指出:类的一个重要特性，就是它们充当自己方法的模块。不相关的类的方法之所以相互独立，是因为每个类的方法都被定义为独立原型对象的属性。而类之所以成为模块，是因为对象是模块:给一个JavaScript对象定义属性非常像声明变量，但给对象添加属性不影响程序的全局命名空间，也不影响其他对象的属性。<br><strong>在函数中声明的局部变量和嵌套函数都是函数私有的。这意味着我们可以使用立即调用的函数表达式来实现某种模块化，把实现的细节和辅助函数隐藏在包装函数中，只将模块的公共API作为函数的值返回。</strong></p>
+<figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 可以像这样定义stats模块</span></span><br><span class="line">const stats = (<span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    <span class="comment">// 模块私有的辅助函数</span></span><br><span class="line">    const <span class="built_in">sum</span> = <span class="function">(<span class="params">x, y</span>) =&gt;</span> x + y;</span><br><span class="line">    const square = <span class="function"><span class="params">x</span> =&gt;</span> x * x;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 要导出的公有函数</span></span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">mean</span>(<span class="params">data</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> data.<span class="built_in">reduce</span>(<span class="built_in">sum</span>) / data.<span class="built_in">length</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 另外一个要导出的公有函数</span></span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">stddev</span>(<span class="params">data</span>) &#123;</span><br><span class="line">        let m = <span class="built_in">mean</span>(data);</span><br><span class="line">        <span class="keyword">return</span> Math.<span class="built_in">sqrt</span>(data.<span class="built_in">map</span>(<span class="function"><span class="params">x</span> =&gt;</span> x - m).<span class="built_in">map</span>(square).<span class="built_in">reduce</span>(<span class="built_in">sum</span>) / (data.<span class="built_in">length</span> - <span class="number">1</span>));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 将公有函数作为一个对象属性导出来</span></span><br><span class="line">    <span class="keyword">return</span> &#123; <span class="built_in">mean</span>, stddev &#125;;</span><br><span class="line">&#125;())</span><br><span class="line"><span class="built_in">console</span>.<span class="built_in">log</span>(stats.<span class="built_in">mean</span>([<span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">9</span>]))</span><br><span class="line"><span class="built_in">console</span>.<span class="built_in">log</span>(stats.stddev([<span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">9</span>]))</span><br></pre></td></tr></table></figure>
+<h3 id="基于闭包的自动模块化"><a href="#基于闭包的自动模块化" class="headerlink" title="基于闭包的自动模块化"></a>基于闭包的自动模块化</h3><p>可以想象有一个工具，它能解析代码文件，把每个文件的内容包装在一个立即调用的函数表达式中，还可以跟踪每个函数的返回值，并将所有内容拼接为一个大文件。结果可能类似如下所示:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> modules = &#123;&#125;;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">require</span>(<span class="params">moduleName</span>)&#123; <span class="keyword">return</span> modules[moduleName]; &#125;</span><br><span class="line">modules[<span class="string">&quot;sets.js&quot;</span>] = (<span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="built_in">exports</span> = &#123;&#125;;</span><br><span class="line">    <span class="comment">// sets.js 文件的内容在这里:</span></span><br><span class="line">    <span class="built_in">exports</span>.<span class="property">BitSet</span> = <span class="keyword">class</span> <span class="title class_">BitSet</span>&#123;&#125;;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">exports</span>;</span><br><span class="line">&#125;());</span><br><span class="line"></span><br><span class="line">modules[<span class="string">&quot;stars.js&quot;</span>] = (<span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="built_in">exports</span> = &#123;&#125;;</span><br><span class="line">    <span class="comment">// stars.js 文件的内容在这里:</span></span><br><span class="line">    <span class="keyword">const</span> <span class="title function_">sum</span> = (<span class="params">a, b</span>) =&gt; a + b;</span><br><span class="line">    <span class="keyword">const</span> <span class="title function_">square</span> = (<span class="params">a, b</span>) =&gt; a * b;</span><br><span class="line">    <span class="built_in">exports</span>.<span class="property">mean</span> = <span class="keyword">function</span>(<span class="params">data</span>)&#123;&#125;;</span><br><span class="line">    <span class="built_in">exports</span>.<span class="property">stddev</span> = <span class="keyword">function</span>(<span class="params">data</span>)&#123;&#125;;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">exports</span>;</span><br><span class="line">&#125;());</span><br></pre></td></tr></table></figure>
+<p>把所有模块都打包到类似上面的单个文件中之后，就可以像下面这样写代码来使用它们:</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// 取得对所需模块(或模块内容)的引用</span><br><span class="line">const stats <span class="operator">=</span> require(<span class="string">&quot;stats.js&quot;</span>)<span class="comment">;</span></span><br><span class="line">const Bitset <span class="operator">=</span> require(<span class="string">&quot;sets.js&quot;</span>).Bitset<span class="comment">;</span></span><br><span class="line"></span><br><span class="line">// 接下来写使用这些模块的代码</span><br><span class="line">let s <span class="operator">=</span> new Bitset()<span class="comment">;</span></span><br><span class="line">s.insert(<span class="number">10</span>)<span class="comment">;</span></span><br><span class="line">s.insert(<span class="number">20</span>)<span class="comment">;</span></span><br><span class="line">s.insert(<span class="number">30</span>)<span class="comment">;</span></span><br><span class="line">let average <span class="operator">=</span> stats.mean([..s])<span class="comment">; //平均数是20</span></span><br></pre></td></tr></table></figure>
+<p>以上代码展示了针对浏览器的代码打包工具(如webpack和Parcel)的基本工作原理，也是对Node程序中使用的require()函数的一个简单介绍。</p>
+<h2 id="Node中的模块"><a href="#Node中的模块" class="headerlink" title="Node中的模块"></a>Node中的模块</h2><p>编写Node程序时，可以随意将程序拆分到任意多个文件中。这些JavaScript代码文件被假定始终存在于一个快速文件系统中。与通过相对较慢的网络连接读取JavaScript文件的浏览器不同，把所有Node文件都写到一个JavaScript文件中既无必要也无益处。<br><strong>Node 模块使用require()函数导入其他模块，通过设置Exports对象的属性或完全替换module.exports对象来导出公共API。</strong></p>
+<h3 id="Node-的导出"><a href="#Node-的导出" class="headerlink" title="Node 的导出"></a>Node 的导出</h3><p>Node 定义了一个全局exports对象，这个对象始终有定义。如果要写一个导出多个值的Node模块，可以把这些值设置为exports对象的属性</p>
+<figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">const <span class="built_in">sum</span> = <span class="function">(<span class="params">a, b</span>) =&gt;</span> a + b;</span><br><span class="line">const square = <span class="function">(<span class="params">a</span>) =&gt;</span> a * a;</span><br><span class="line">exports.<span class="built_in">mean</span> = <span class="function"><span class="params">data</span> =&gt;</span> data.<span class="built_in">reduce</span>(<span class="built_in">sum</span>) / data.<span class="built_in">length</span>;</span><br><span class="line">exports.stddev = <span class="keyword">function</span> (<span class="params">d</span>) &#123;</span><br><span class="line">    let m = exports.<span class="built_in">mean</span>(d);</span><br><span class="line">    <span class="keyword">return</span> Math.<span class="built_in">sqrt</span>(d.<span class="built_in">map</span>(<span class="function"><span class="params">x</span> =&gt;</span> (x - m)).<span class="built_in">reduce</span>(square).<span class="built_in">reduce</span>(<span class="built_in">sum</span>) / (d.<span class="built_in">length</span> - <span class="number">1</span>));</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="Node-的导入"><a href="#Node-的导入" class="headerlink" title="Node 的导入"></a>Node 的导入</h3><p>Node 模块通过调用require()函数导入其他模块。这个函数的参数是要导入模块的名字，返回值是该模块导出的值。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这些都是Node内置的模块</span></span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> http = <span class="built_in">require</span>(<span class="string">&#x27;http&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Express HTTP 服务器框架是第三方模块</span></span><br><span class="line"><span class="comment">//不属于Node，但已经安装在本地</span></span><br><span class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">&#x27;express&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<p>如果你想导入你自己代码的模块，则模块名应该是指向包含模块代码的模块文件的路径，例如:</p>
+<figure class="highlight isbl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">const</span> <span class="variable">status</span> = <span class="function"><span class="title">require</span>(<span class="string">&#x27;./status.js&#x27;</span>)</span></span><br><span class="line"><span class="variable">const</span> <span class="variable">BitSet</span> = <span class="function"><span class="title">require</span>(<span class="string">&#x27;./BitSet.js&#x27;</span>)</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>.js后缀不是必要的，但是建议加上去以判断类型。</p>
+</blockquote>
+<h2 id="ES6-中的模块"><a href="#ES6-中的模块" class="headerlink" title="ES6 中的模块"></a>ES6 中的模块</h2><p>ES6 为 JavaScript 添加了 import 和 export 关键字，终于将模块作为核心语言特性来支持了。ES6 模块化与 Node 的模块化在概念上是相同的:<strong>每个文件本身都是模块</strong></p>
+<blockquote>
+<p>ES6 模块中的代码自动应用严格模式。</p>
+</blockquote>
+<h3 id="ES6-的导出"><a href="#ES6-的导出" class="headerlink" title="ES6 的导出"></a>ES6 的导出</h3><p>要从 ES6 模块导出常量、变量、函数或类，只要在声明前exports关键字即可:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> <span class="variable constant_">PI</span> = <span class="title class_">Math</span>.<span class="property">PI</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> <span class="title function_">degreesToRadians</span>(<span class="params">d</span>)&#123;<span class="keyword">return</span> d * <span class="variable constant_">PI</span> / <span class="number">180</span>&#125;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">Circle</span> &#123;</span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params">r</span>) &#123;<span class="variable language_">this</span>.<span class="property">r</span> = r;&#125;</span><br><span class="line">    <span class="title function_">area</span>(<span class="params"></span>) &#123;<span class="keyword">return</span> <span class="variable constant_">PI</span> * <span class="variable language_">this</span>.<span class="property">r</span> * <span class="variable language_">this</span>.<span class="property">r</span>;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如果要省略多个export的话，可以在模块末尾添加<code>export &#123;Circle,degreesToRadians,PI&#125;</code></p>
+</blockquote>
+<h3 id="ES6-的导入"><a href="#ES6-的导入" class="headerlink" title="ES6 的导入"></a>ES6 的导入</h3><p>和大多数面向对象的语言类似，可以通过以下代码来导入模块:<br><code>import BitSet from &#39;./BitSet</code></p>
+<blockquote>
+<p>ES6 规范不允许非限定模块标识符字符串，因为它存在歧义，所以需要加“.&#x2F;”等路径提示。</p>
+</blockquote>
+<h3 id="导入和导出时重命名"><a href="#导入和导出时重命名" class="headerlink" title="导入和导出时重命名"></a>导入和导出时重命名</h3><p>如果两个模块使用相同的名字导出了两个不同的值，而你希望同时导入这两个值，那必须在导入时对其中一个或这两个进行重命名:</p>
+<figure class="highlight capnproto"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; render <span class="keyword">as</span> renderImage&#125; <span class="keyword">from</span> <span class="string">&quot;./imageutils.js&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; render <span class="keyword">as</span> renderUI&#125; <span class="keyword">from</span> <span class="string">&quot;./ui.js&quot;</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="再导出"><a href="#再导出" class="headerlink" title="再导出"></a>再导出</h3><p>如果我们只需要个别函数的话，可以定义额外的js文件来避免因导入不需要的代码造成体积膨胀。我们这是可以先导入需要的函数然后在导出即可：</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;mean&#125; <span class="keyword">from</span> <span class="string">&quot;./stats.js/mean.js&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;stddev&#125; <span class="keyword">from</span> <span class="string">&quot;./stats.js/stddev.js&quot;</span>;</span><br><span class="line"><span class="keyword">export</span> &#123;mean,stddev&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>模块化的目标是让程序员隐藏自己代码实现的细节，从而让不通过来源的代码块可以组装成一个大型程序，又不必担心某个代码会重写其他代码块的函数或变量。本篇讲述了:</p>
+<ul>
+<li>在 JavaScript 早期，模块化只能通过巧妙地使用立即调用的函数表达式来实现。</li>
+<li>Node 在 JavaScript 语言之上加入了自己的模块系统。Node模块通过 require() 导入，并通过设置Exports对象的属性或直接设置module.exports 属性来定义导出</li>
+<li>在 ES6 中，JavaScript 终于有了自己依托import 和 export 关键字的模块系统， ES2020 又通过 import() 增加了对动态导入的支持</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+    <footer class="post-footer"><div>
+    
+        <div style="text-align:center;color: #ccc;font-size:24px; padding-top: 10px;">--------------------------------- The End ---------------------------------  </div>
+    
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/HTML/" rel="tag"># HTML</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/07/08/JavaScript%E5%87%BD%E6%95%B0/" rel="prev" title="初识JavaScript -- 函数">
+                  <i class="fa fa-chevron-left"></i> 初识JavaScript -- 函数
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2023</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Kaos</span>
+  </div>
+      <div style="display: flex;justify-content: center; font-size: 16px;">
+        <span>本网站由</span>
+        <a style="text-decoration-line: none;" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" title="又拍云"><img
+                src="https://img1.imgtp.com/2023/04/03/2zTRnA9g.png" alt="又拍云" width="50em"></a>
+        <span>提供CDN加速/云存储服务</span>
+    </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">6k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">22 分钟</span>
+  </span>
+</div>
+<!-- <br /> -->
+<!-- 网站运行时间的设置 -->
+<span id="timeDate">载入天数...</span>
+<!-- <span id="times">载入时分秒...</span> -->
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("7/02/2023 12:00:00");//此处修改你的建站时间或者网站上线时间
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds);
+        if(String(snum).length ==1 ){snum = "0" + snum;}
+        // var times = document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "+hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+    }
+setInterval("createtime()",250);
+</script>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
+
+
