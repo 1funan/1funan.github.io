@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/QD.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/QD.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.17.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"mac"},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="写在前面JavaScript数组是一种特殊的JavaScript对象，数组从Array.prototype继承属性，这个原型上定义了很多数组操作方法。其中很多方法都是泛型的，这意味着它们不仅可以用于真正的数组，也可以用于任何“类数组对象”。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="初识JavaScript -- 数组">
+<meta property="og:url" content="http://example.com/2023/07/08/JavaScript%E6%95%B0%E7%BB%84/index.html">
+<meta property="og:site_name">
+<meta property="og:description" content="写在前面JavaScript数组是一种特殊的JavaScript对象，数组从Array.prototype继承属性，这个原型上定义了很多数组操作方法。其中很多方法都是泛型的，这意味着它们不仅可以用于真正的数组，也可以用于任何“类数组对象”。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-07-08T15:31:19.000Z">
+<meta property="article:modified_time" content="2023-07-08T15:32:18.150Z">
+<meta property="article:author" content="Kaos">
+<meta property="article:tag" content="HTML">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2023/07/08/JavaScript%E6%95%B0%E7%BB%84/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2023/07/08/JavaScript%E6%95%B0%E7%BB%84/","path":"2023/07/08/JavaScript数组/","title":"初识JavaScript -- 数组"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>初识JavaScript -- 数组 | </title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+  <!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/clicklove.js"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title"></p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Seize The Day</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-首页"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-关于"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-标签"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-归档"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E6%95%B0%E7%BB%84"><span class="nav-number">1.1.</span> <span class="nav-text">创建数组</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E7%BB%84%E5%AD%97%E9%9D%A2%E9%87%8F"><span class="nav-number">1.1.1.</span> <span class="nav-text">数组字面量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%A9%E5%B1%95%E6%93%8D%E4%BD%9C%E7%AC%A6"><span class="nav-number">1.1.2.</span> <span class="nav-text">扩展操作符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Array-%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0"><span class="nav-number">1.1.3.</span> <span class="nav-text">Array()构造函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Array-of"><span class="nav-number">1.1.4.</span> <span class="nav-text">Array.of()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Array-from"><span class="nav-number">1.1.5.</span> <span class="nav-text">Array.from()</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E7%BB%84%E9%95%BF%E5%BA%A6"><span class="nav-number">1.2.</span> <span class="nav-text">数组长度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%AD%E4%BB%A3%E6%95%B0%E7%BB%84"><span class="nav-number">1.3.</span> <span class="nav-text">迭代数组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E7%BB%84%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%96%B9%E6%B3%95"><span class="nav-number">1.4.</span> <span class="nav-text">数组迭代器方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#map"><span class="nav-number">1.4.1.</span> <span class="nav-text">map()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#filter"><span class="nav-number">1.4.2.</span> <span class="nav-text">filter()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reduce"><span class="nav-number">1.4.3.</span> <span class="nav-text">reduce()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#flat"><span class="nav-number">1.4.4.</span> <span class="nav-text">flat()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#slice-%E3%80%81splice-%E3%80%81fill-%E5%92%8CcopyWithin"><span class="nav-number">1.4.5.</span> <span class="nav-text">slice()、splice()、fill()和copyWithin()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sort"><span class="nav-number">1.4.6.</span> <span class="nav-text">sort()</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-number">1.5.</span> <span class="nav-text">小结</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Kaos"
+      src="/images/sad.jpg">
+  <p class="site-author-name" itemprop="name">Kaos</p>
+  <div class="site-description" itemprop="description">种一棵树最好的时间是十年前,其次是现在</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/1funan" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;1funan" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://v.douyin.com/iFHTugs/" title="抖音 → https:&#x2F;&#x2F;v.douyin.com&#x2F;iFHTugs&#x2F;" rel="noopener me" target="_blank"><i class="fab custom douyin fa-fw"></i>抖音</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://b23.tv/WnMIYnG" title="哔哩哔哩 → https:&#x2F;&#x2F;b23.tv&#x2F;WnMIYnG" rel="noopener me" target="_blank"><i class="fab custom bili fa-fw"></i>哔哩哔哩</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/zi-liu-zi-liu-98" title="知乎 → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;zi-liu-zi-liu-98" rel="noopener me" target="_blank"><i class="fab custom zhihu fa-fw"></i>知乎</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/07/08/JavaScript%E6%95%B0%E7%BB%84/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/sad.jpg">
+      <meta itemprop="name" content="Kaos">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="种一棵树最好的时间是十年前,其次是现在">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="初识JavaScript -- 数组 | ">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          初识JavaScript -- 数组
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2023-07-08 23:31:19 / 修改时间：23:32:18" itemprop="dateCreated datePublished" datetime="2023-07-08T23:31:19+08:00">2023-07-08</time>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.1k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>7 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>JavaScript数组是一种特殊的JavaScript对象，数组从Array.prototype继承属性，这个原型上定义了很多数组操作方法。其中很多方法都是泛型的，这意味着它们不仅可以用于真正的数组，也可以用于任何“类数组对象”。</p>
+<span id="more"></span>
+<h2 id="创建数组"><a href="#创建数组" class="headerlink" title="创建数组"></a>创建数组</h2><p>创建数组有四种方式：</p>
+<ul>
+<li>数组字面量</li>
+<li>对可迭代对象使用…操作符</li>
+<li>Array()构造函数</li>
+<li>工厂方法Array.of()和Array.from()</li>
+</ul>
+<h3 id="数组字面量"><a href="#数组字面量" class="headerlink" title="数组字面量"></a>数组字面量</h3><p>迄今为止，创建数组最简单的方式就是使用数组字面量。数组字面量其实就是一对方括号中逗号分隔的数组元素的列表:</p>
+<figure class="highlight zephir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="keyword">empty</span> = [];				<span class="comment">// 没有元素的数组</span></span><br><span class="line"><span class="keyword">let</span> primes = [<span class="number">2</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">7</span>,<span class="number">11</span>];	<span class="comment">// 有5个数值元素的数组</span></span><br><span class="line"><span class="keyword">let</span> misc = [<span class="number">1.1</span>,<span class="keyword">true</span>,<span class="string">&quot;a&quot;</span>];	<span class="comment">// 3种不同类型的元素，最后还有一个逗号</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如果数组字面量中连续包含多个逗号，且逗号之间没有值，则这个数组就是<strong>稀疏的</strong></p>
+</blockquote>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let count = [<span class="number">1</span>,,<span class="number">3</span>];		<span class="regexp">//</span> 索引<span class="number">0</span>和<span class="number">2</span>有元素，索引<span class="number">1</span>没有元素</span><br><span class="line">let undefs = [,,];		<span class="regexp">//</span> 这个数组没有元素但长度为<span class="number">2</span></span><br></pre></td></tr></table></figure>
+<h3 id="扩展操作符"><a href="#扩展操作符" class="headerlink" title="扩展操作符"></a>扩展操作符</h3><p>在 ES6 及之后的版本中，可以使用扩展操作符<code>...</code>在一个数组字面量中包含另一个数组的元素:</p>
+<figure class="highlight ceylon"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</span><br><span class="line"><span class="keyword">let</span> b = [<span class="number">0</span>,...a,<span class="number">4</span>];		<span class="comment">// b == [0,1,2,3,4]</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>扩展操作符是创建数组（浅）副本的一种便捷方式，扩展操作符适用于任何可迭代对象(可迭代对象可以用for&#x2F;of循环遍历)</p>
+</blockquote>
+<h3 id="Array-构造函数"><a href="#Array-构造函数" class="headerlink" title="Array()构造函数"></a>Array()构造函数</h3><p>另一种创建数组的方式是使用Array()构造函数。有三种方式可以调用这个构造函数。</p>
+<ul>
+<li>不传参调用:<br><code> let a = new Array();</code></li>
+<li>传入一个数组参数，指定长度:<br>&#96; let a - new Array(10);<blockquote>
+<p>这样会创建一个指定长度的数组。如果提前知道需要多少个数组元素，可以像这样调用Array()构造函数来预先为数组分配空间。**注意，这时的数组中不会存储任何值，数组索引属性”0“、”1“等甚至都没有定义。</p>
+</blockquote>
+</li>
+<li>传入两个或个更多个数组元素，传入一个非数值元素:<br><code> let a = new Array(5,4,3,2,1,&quot;testing,testing&quot;);	//a = [4,3,2,1,</code>“testing,testing”]</li>
+</ul>
+<h3 id="Array-of"><a href="#Array-of" class="headerlink" title="Array.of()"></a>Array.of()</h3><p>在使用数值参数调用Array()构造函数时，这个参数指定的是数组长度。但在使用一个以上的数值参数时，这些参数则会成为新数组的元素。这意味着使用Array()构造函数无法创建只包含一个元素的数组。<br>在ES6中，Array.of()函数可以解决这个问题。这是个工厂方法，可以使用其参数值作为数组元素来创建并返回新数组:</p>
+<figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Array</span>.of()		<span class="comment">// =&gt; []; 返回没有参数的空数组</span></span><br><span class="line"><span class="built_in">Array</span>.of(<span class="number">10</span>)	<span class="comment">// =&gt; [10]; 可以创建只有一个数值元素的数组</span></span><br><span class="line"><span class="built_in">Array</span>.of(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>)	<span class="comment">// =&gt; [1,2,3]</span></span><br></pre></td></tr></table></figure>
+<h3 id="Array-from"><a href="#Array-from" class="headerlink" title="Array.from()"></a>Array.from()</h3><p>Array.from()是ES6新增的另一个工厂方法。这个方法期待一个可迭代对象或类数组对象作为其第一个参数，并返回包含该对象元素的新数组。如果传入可迭代对象，Array.from()和扩展操作符一样。因此，它也是创建数组副本的一种简单方式:<br><code> let copy = Array.from(original);</code></p>
+<blockquote>
+<p>Array.from()也接受可选的第二个参数。如果给第二个参数传入了一个函数，那么在构建新数组时，源对象的每个元素都会传入这个函数，这个函数的返回值将替代原始值成为新数组的元素</p>
+</blockquote>
+<h2 id="数组长度"><a href="#数组长度" class="headerlink" title="数组长度"></a>数组长度</h2><p>数组实现以维护长度不变式的第二个特殊行为，就是如果将length属性设置为一个小于当前值的一个非负整数n，则任何索引大于或等于n的数组都会从数组中被删除:</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">a</span> = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>]<span class="comment">;		// 先定义一个包含5个元素的数组</span></span><br><span class="line"><span class="attr">a.length</span> = <span class="number">3</span><span class="comment">;			// a变成[1,2,3]</span></span><br><span class="line"><span class="attr">a.length</span> = <span class="number">0</span><span class="comment">;			// 删除所有元素。a是[]</span></span><br><span class="line"><span class="attr">a.length</span> = <span class="number">5</span><span class="comment">;			// 长度是5，但没有元素，类似 new Array(5)</span></span><br></pre></td></tr></table></figure>
+<h2 id="迭代数组"><a href="#迭代数组" class="headerlink" title="迭代数组"></a>迭代数组</h2><p>到ES6为止，遍历一个数组(或任何可迭代对象)的最简单方式就是使用 <code>for/of</code>循环:</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> letters = [..<span class="string">&quot;Hello World&quot;</span>];</span><br><span class="line"><span class="keyword">let</span> <span class="built_in">string</span> = <span class="string">&quot;&quot;</span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> letter of letters)&#123;</span><br><span class="line">	<span class="built_in">string</span> += letter;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">string</span>		<span class="comment">// =&gt; &quot;Hello World&quot;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>for/of</code>循环使用的内置数组迭代器按照升序返回数组元素。对于稀疏数组，这个循环没有特殊行为，凡是不存在的元素都返回<code>undefined</code>。<br>另外一种迭代数组的推荐方式就是使用forEach()。</p>
+</blockquote>
+<figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">let uppercase = <span class="string">&quot;&quot;</span>;</span><br><span class="line">letters.forEach(<span class="function"><span class="params">letter</span> =&gt;</span> &#123;</span><br><span class="line">	uppercase += letter.toUpperCase();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>当然，也可以使用C语言风格的for循环，这样性能会更好一些。</p>
+<h2 id="数组迭代器方法"><a href="#数组迭代器方法" class="headerlink" title="数组迭代器方法"></a>数组迭代器方法</h2><h3 id="map"><a href="#map" class="headerlink" title="map()"></a>map()</h3><p>map()方法把嗲用它的数组的每个元素分别传给我们指定的函数，返回这个函数的返回值构成的函数:</p>
+<figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let a = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</span><br><span class="line">a.<span class="built_in">map</span>( <span class="function"><span class="params">x</span> =&gt;</span> x*x);	<span class="comment">// =&gt;[1,4,9]</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>注意，map()返回一个新数组，并不修改调用它的数组。如果数组是稀疏的，则缺失的元素不会调用我们的函数，但返回的数组也会与原始数组一样稀疏:长度相同，缺失的元素也相同</strong></p>
+</blockquote>
+<h3 id="filter"><a href="#filter" class="headerlink" title="filter()"></a>filter()</h3><p>filter()方法返回一个数组，该数组包含调用它的数组的子数组。传给这个方法的函数应该是一个断言函数，即返回true或false的函数：</p>
+<figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">let a = [<span class="number">5</span>,<span class="number">4</span>,<span class="number">3</span>,<span class="number">2</span>,<span class="number">1</span>];</span><br><span class="line">a.<span class="built_in">filter</span>(<span class="function"><span class="params">x</span> =&gt;</span> x &lt; <span class="number">3</span>)			<span class="comment">// =&gt;[2,1],小于3的值</span></span><br><span class="line">a.<span class="built_in">filter</span>(<span class="function">(<span class="params">x,i</span>) =&gt;</span> i%<span class="number">2</span> === <span class="number">0</span>)	<span class="comment">// =&gt;[5,3,1],选取索引为偶数的元素</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意，filter()会跳过稀疏数组中缺失的元素，它返回的数组始终是稠密的。因此可以使用filter()方法像下面这样清理掉稀疏数组中的空隙:<br><code>let dense = sparse.filter(() =&gt; true);</code></p>
+</blockquote>
+<h3 id="reduce"><a href="#reduce" class="headerlink" title="reduce()"></a>reduce()</h3><p>reduce()方法使用我们指定的函数归并数组元素，并最终产生一个值。在函数编程中，归并是一个常见操作，有时候也叫做”注入“或”折叠“:</p>
+<figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">let a = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>];</span><br><span class="line">a.<span class="built_in">reduce</span>(<span class="function">(<span class="params">x,y</span>) =&gt;</span> x+y,<span class="number">0</span>)		<span class="comment">// =&gt; 15;所有值之和</span></span><br><span class="line">a.<span class="built_in">reduce</span>(<span class="function">(<span class="params">x,y</span>) =&gt;</span> x*y,<span class="number">1</span>)		<span class="comment">// =&gt; 120;所有值之积</span></span><br><span class="line">a.<span class="built_in">reduce</span>(<span class="function">(<span class="params">x,y</span>) =&gt;</span>(x &gt; y)? x:y)	<span class="comment">// =&gt; 5;最大值</span></span><br></pre></td></tr></table></figure>
+<h3 id="flat"><a href="#flat" class="headerlink" title="flat()"></a>flat()</h3><p>在ES2019中，flat()方法用于创建并返回一个新数组，这个数组包含与它调用flat()的数组相同的元素，只不过其中任何本身也是数组的元素会被“打平”填充到返回的数组中:</p>
+<figure class="highlight inform7"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">[1,<span class="comment">[2,3]</span>]</span>.flat()		// =&gt; <span class="comment">[1,2,3]</span></span><br><span class="line"><span class="comment">[1,<span class="comment">[2,<span class="comment">[3]</span>]</span>]</span>.flat()		// =&gt; <span class="comment">[1,2,<span class="comment">[3]</span>]</span></span><br></pre></td></tr></table></figure>
+<p>在不传参调用时，flat()会打平一级嵌套，如果想要打平更多层级，需要给flat()传入一个数值参数:</p>
+<figure class="highlight inform7"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">let a = <span class="comment">[1,<span class="comment">[2,<span class="comment">[3,<span class="comment">[4]</span>]</span>]</span>]</span>;</span><br><span class="line">a.flat(1) // =&gt; <span class="comment">[1,2,<span class="comment">[3,<span class="comment">[4]</span>]</span>]</span></span><br><span class="line">a.flat(2) // =&gt; <span class="comment">[1,2,3,<span class="comment">[4]</span>]</span></span><br><span class="line">a,flat(3) // =&gt; <span class="comment">[1,2,3,4]</span></span><br></pre></td></tr></table></figure>
+<h3 id="slice-、splice-、fill-和copyWithin"><a href="#slice-、splice-、fill-和copyWithin" class="headerlink" title="slice()、splice()、fill()和copyWithin()"></a>slice()、splice()、fill()和copyWithin()</h3><p>slice()就是切片，和Java差不多<br>splice()和slice()差不多，不过会改变原有数组<br>fill()则是在指定位置填充括号内的指定参数:</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">let a = new Array(<span class="number">5</span>);</span><br><span class="line">a.fill(<span class="number">0</span>)     	<span class="regexp">//</span> =&gt; [<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>]</span><br><span class="line">a.fill(<span class="number">9</span>,<span class="number">1</span>)		<span class="regexp">//</span> -&gt; [<span class="number">0</span>,<span class="number">9</span>,<span class="number">9</span>,<span class="number">9</span>,<span class="number">9</span>] 从索引<span class="number">1</span>开始填充<span class="number">9</span></span><br><span class="line">a.fill(<span class="number">8</span>,<span class="number">2</span>,-<span class="number">1</span>)	<span class="regexp">//</span> =&gt; [<span class="number">0</span>,<span class="number">9</span>,<span class="number">8</span>,<span class="number">8</span>,<span class="number">9</span>] 在索引<span class="number">2</span>和<span class="number">3</span>填充<span class="number">8</span></span><br></pre></td></tr></table></figure>
+<p>copyWithin()会把数组切片复制到数组中的新位置，它会就地修改数组并返回修改后的数组，但不会修改数组长度:</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = <span class="literal">[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>]</span>;</span><br><span class="line">a.copy<span class="constructor">Within(1)</span>			<span class="comment">// =&gt; [1,1,2,3,4] 把数组元素复制到索引1及之后</span></span><br><span class="line">a.copy<span class="constructor">Within(2,3,5)</span>		<span class="comment">// =&gt; [1,1,3,4,4] 把最后两个元素复制到索引2</span></span><br></pre></td></tr></table></figure>
+<h3 id="sort"><a href="#sort" class="headerlink" title="sort()"></a>sort()</h3><p>sort()对数组元素就地排序并返回排序后的数组。<strong>在不传参调用时，sort()按字母顺序对数组元素排序</strong><br>要对数组元素执行非字母顺序的排序，必须给sort()传一个比较函数作为参数。这个函数决定它的两个参数哪一个在排序后的数组中应该出现在前面。<strong>如果第一个参数应该出现在第二个参数前面，比较函数应该返回一个小于0的数值，如果第一个参数应该出现在第二个参数后面，比较函数应该返回一个大于0的数值。</strong><br>因此，要对数组元素按照数值而非字母与顺序排序，应该这样做:</p>
+<figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">let a = [<span class="number">33</span>,<span class="number">4</span>,<span class="number">1111</span>,<span class="number">222</span>];</span><br><span class="line">a.<span class="built_in">sort</span>();</span><br><span class="line">a.<span class="built_in">sort</span>(<span class="keyword">function</span>(<span class="params">a,b</span>)&#123;</span><br><span class="line">	<span class="keyword">return</span> a - b;</span><br><span class="line">&#125;);							<span class="comment">//正序输出 a = [4,33,222,1111]</span></span><br><span class="line">a.<span class="built_in">sort</span>(<span class="function">(<span class="params">a,b</span>) =&gt;</span> b - a);		<span class="comment">//倒序输出</span></span><br></pre></td></tr></table></figure>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><ul>
+<li>数组字面量是写在方括号中的逗号分隔的值列表</li>
+<li>访问数组元素只要在方括号中指定期待的索引即可</li>
+<li>ES6新增的<code>for/of</code>循环和…扩展操作符对迭代数组特别有用</li>
+<li>Array类定义了操作数组的很多方法，应该熟练掌握这些数组API</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+    <footer class="post-footer"><div>
+    
+        <div style="text-align:center;color: #ccc;font-size:24px; padding-top: 10px;">--------------------------------- The End ---------------------------------  </div>
+    
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/HTML/" rel="tag"># HTML</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/07/08/JavaScript%E6%A8%A1%E5%9D%97/" rel="prev" title="初识JavaScript -- 模块">
+                  <i class="fa fa-chevron-left"></i> 初识JavaScript -- 模块
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2023</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Kaos</span>
+  </div>
+      <div style="display: flex;justify-content: center; font-size: 16px;">
+        <span>本网站由</span>
+        <a style="text-decoration-line: none;" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" title="又拍云"><img
+                src="https://img1.imgtp.com/2023/04/03/2zTRnA9g.png" alt="又拍云" width="50em"></a>
+        <span>提供CDN加速/云存储服务</span>
+    </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">9k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">29 分钟</span>
+  </span>
+</div>
+<!-- <br /> -->
+<!-- 网站运行时间的设置 -->
+<span id="timeDate">载入天数...</span>
+<!-- <span id="times">载入时分秒...</span> -->
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("7/02/2023 12:00:00");//此处修改你的建站时间或者网站上线时间
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds);
+        if(String(snum).length ==1 ){snum = "0" + snum;}
+        // var times = document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "+hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+    }
+setInterval("createtime()",250);
+</script>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
+
+
