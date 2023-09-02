@@ -27,7 +27,7 @@
 <meta property="og:description" content="短链接，通俗来说，就是将长的URL网址，通过程序计算等方式，转换为简短的网址字符串。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-09-01T15:28:03.000Z">
-<meta property="article:modified_time" content="2023-09-01T15:31:37.529Z">
+<meta property="article:modified_time" content="2023-09-02T04:04:07.412Z">
 <meta property="article:author" content="Kaos">
 <meta property="article:tag" content="短链接">
 <meta name="twitter:card" content="summary">
@@ -102,7 +102,7 @@
   
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -115,6 +115,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%AD%E9%93%BE%E6%8E%A5%E8%A7%A3%E6%9E%90%E7%9A%84%E5%8E%9F%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">短链接解析的原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%AD%E9%93%BE%E6%8E%A5%E7%94%9F%E6%88%90%E7%9A%84%E5%8E%9F%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text">短链接生成的原理</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -204,9 +205,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2023-09-01 23:28:03 / 修改时间：23:31:37" itemprop="dateCreated datePublished" datetime="2023-09-01T23:28:03+08:00">2023-09-01</time>
+      <time title="创建时间：2023-09-01 23:28:03" itemprop="dateCreated datePublished" datetime="2023-09-01T23:28:03+08:00">2023-09-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-09-02 12:04:07" itemprop="dateModified" datetime="2023-09-02T12:04:07+08:00">2023-09-02</time>
     </span>
 
   
@@ -216,7 +223,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>36</span>
+      <span>171</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
@@ -235,7 +242,16 @@
     
     <div class="post-body" itemprop="articleBody"><p>短链接，通俗来说，就是将长的URL网址，通过程序计算等方式，转换为简短的网址字符串。</p>
 <span id="more"></span>
-
+<h2 id="短链接解析的原理"><a href="#短链接解析的原理" class="headerlink" title="短链接解析的原理"></a>短链接解析的原理</h2><p>当我们在浏览器中输入 <code>https://b23.tv/WnMIYnG</code> 时</p>
+<ol>
+<li>DNS首先解析获得 <code>https://b23.tv</code>的IP地址</li>
+<li>当 DNS 获得 IP地址以后，会向这个地址发送 get 请求，查询短码<code>WnMIYnG</code></li>
+<li>服务器会根据短码查询对应的长url网址然后301永久重定向对应的长网址</li>
+</ol>
+<h2 id="短链接生成的原理"><a href="#短链接生成的原理" class="headerlink" title="短链接生成的原理"></a>短链接生成的原理</h2><ul>
+<li>Hash算法。对长url进行hash转换，但有概率产生hash碰撞</li>
+<li>发号器(ID自增)+62进制编码</li>
+</ul>
 
     </div>
 
