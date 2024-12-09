@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Kao&#39;s Blog</title>
+  
+  <subtitle>YU</subtitle>
+  <link href="http://example.com/atom.xml" rel="self"/>
+  
+  <link href="http://example.com/"/>
+  <updated>2024-12-09T03:20:24.133Z</updated>
+  <id>http://example.com/</id>
+  
+  <author>
+    <name>Kaos</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>第一篇文章</title>
+    <link href="http://example.com/2024/12/08/%E6%B5%8B%E8%AF%95%E4%B8%80%E4%B8%8B/"/>
+    <id>http://example.com/2024/12/08/%E6%B5%8B%E8%AF%95%E4%B8%80%E4%B8%8B/</id>
+    <published>2024-12-08T15:55:51.000Z</published>
+    <updated>2024-12-09T03:20:24.133Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="2024"><a href="#2024" class="headerlink" title="2024"></a>2024</h2><h3 id="编程语言类型"><a href="#编程语言类型" class="headerlink" title="编程语言类型"></a>编程语言类型</h3><ul><li>python</li><li>java<span id="more"></span></li><li>go</li><li>JavaScript</li></ul>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;2024&quot;&gt;&lt;a href=&quot;#2024&quot; class=&quot;headerlink&quot; title=&quot;2024&quot;&gt;&lt;/a&gt;2024&lt;/h2&gt;&lt;h3 id=&quot;编程语言类型&quot;&gt;&lt;a href=&quot;#编程语言类型&quot; class=&quot;headerlink&quot; title=&quot;编程语言类型&quot;&gt;&lt;/a&gt;编程语言类型&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;python&lt;/li&gt;
+&lt;li&gt;java</summary>
+    
+    
+    
+    
+    <category term="编程" scheme="http://example.com/tags/%E7%BC%96%E7%A8%8B/"/>
+    
+  </entry>
+  
+</feed>
