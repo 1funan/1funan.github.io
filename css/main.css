@@ -1276,7 +1276,7 @@ pre code {
     vertical-align: middle;
   }
   .links-of-author a::before {
-    background: #cf5511;
+    background: #a22e99;
     display: inline-block;
     margin-right: 3px;
     transform: translateY(-2px);
@@ -1738,7 +1738,6 @@ pre code {
   padding-top: 45px;
   -webkit-box-shadow: 0 0 5px rgba(202,203,203,0.5);
   -moz-box-shadow: 0 0 5px rgba(202,203,204,0.5);
-  opacity: 0.9;
 }
 .use-motion .pagination,
 .use-motion .comments {
@@ -2744,6 +2743,9 @@ body {
 }
 .site-brand-container {
   margin-top: 20px;
+}
+.main-inner {
+  opacity: 0.9;
 }
 /* 侧边栏图标格式设置 */
 .blbl {
