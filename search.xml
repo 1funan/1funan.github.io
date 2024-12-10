@@ -1,6 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>RabbitMQ的使用</title>
+    <url>/2024/12/10/RabbitMQ%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h1 id="RabbitMQ-简介"><a href="#RabbitMQ-简介" class="headerlink" title="RabbitMQ 简介"></a>RabbitMQ 简介</h1><p>RabbitMQ 是一个消息代理：它接收和转发消息。您可以把它想象成一个邮局：当您将要寄出的邮件放入邮箱时，您可以确信信使最终会将邮件送到收件人手中。在这个比喻中，RabbitMQ 就是邮箱、邮局和信使。</p>
+
+<span id="more"></span>
+
+<h2 id="RabbitMQ-的基本术语"><a href="#RabbitMQ-的基本术语" class="headerlink" title="RabbitMQ 的基本术语"></a>RabbitMQ 的基本术语</h2><ul>
+<li>生产者–负责产生消息的程序</li>
+<li>消费者–消费者是一个主要等待接收消息的程序</li>
+<li>队列–RabbitMQ 中邮箱的名称。虽然消息会流经 RabbitMQ 和您的应用程序，但它们只能存储在队列中。队列仅受主机内存和磁盘限制的约束，本质上是一个大型消息缓冲区。</li>
+</ul>
+<h3 id="图示"><a href="#图示" class="headerlink" title="图示"></a>图示</h3><br/>
+![RabbitMQ的工作原理](https://s2.loli.net/2024/12/10/kOD3HjelrEBwsPa.png)
+
+<h2 id="RabbitMQ-的基本使用"><a href="#RabbitMQ-的基本使用" class="headerlink" title="RabbitMQ 的基本使用"></a>RabbitMQ 的基本使用</h2><h3 id="在普通程序中的使用"><a href="#在普通程序中的使用" class="headerlink" title="在普通程序中的使用"></a>在普通程序中的使用</h3><p>接收者:</p>
+<code>
+ ConnectionFactory factory = new ConnectionFactory();
+    factory.setHost("localhost");
+    Connection connection = factory.newConnection();
+    Channel channel = connection.createChannel();
+    channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+    System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
+</code>
+
+<p>发送者：</p>
+<code>
+ConnectionFactory factory = new ConnectionFactory();
+factory.setHost("localhost");
+try (Connection connection = factory.newConnection();
+     Channel channel = connection.createChannel()) &#123;
+    channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+String message = "Hello World!";
+channel.basicPublish("", QUEUE_NAME, null, message.getBytes());
+System.out.println(" [x] Sent '" + message + "'");
+&#125;
+</code>
+
+<h3 id="在-Spring-中的使用"><a href="#在-Spring-中的使用" class="headerlink" title="在 Spring 中的使用"></a>在 Spring 中的使用</h3><p>首先导入相关依赖<br><br/><br>YML 配置文件<br><br/><br><code><br>rabbitmq:<br>addresses: localhost<br>username: guest<br>password: guest<br>virtual-host: /<br></code><br><br/><br>config:<br><br/><br><code><br>@Configuration<br>public class RabbitConfiguration &#123;<br>@Bean("directExchange") // 定义交换机 Bean<br>public Exchange exchange()&#123;<br>return ExchangeBuilder.directExchange("amq.direct").build()<br>&#125;<br>@Bean("yydsQueue")<br>public Queue queue()&#123;<br>return QueueBuilder<br>.nonDurable("my-yyds") //非持久化类型，持久化将存储在本地磁盘上<br>.build();<br>&#125;<br>@Bean("binding")<br>public Binding binding (@Qualifier("directExchange") Exchange exchange,<br>@Qualifier("yydsQueue") Queue queue)&#123;<br>return BindingBuilder<br>.bind(queue) //绑定队列<br>.to(exhcange) //绑定交换机<br>.with("my-yyds") //指定交换机的路由<br>.noargs()<br>&#125;<br>&#125;<br></code><br><br/><br>生产者:<br><br><code><br>@Resource<br>Rabbit templateAndSend("amq.direct","my-yyds","Hello World!")<br></code><br>消费者:<br/><br><code><br>@Component <br/><br>public class TestListener &#123;<br>@RabbitListener(queue = "yyds") //绑定消息队列<br>public void test(Message message)&#123;<br>System.out.println(new String(message.getBody())) //将会打印"Hello World!"<br>&#125;<br>&#125;<br></code></p>
+<h2 id="Rabbit-的其它知识点"><a href="#Rabbit-的其它知识点" class="headerlink" title="Rabbit 的其它知识点"></a>Rabbit 的其它知识点</h2><h3 id="死信队列"><a href="#死信队列" class="headerlink" title="死信队列"></a>死信队列</h3><p><img data-src="https://kaoswater1.oss-cn-shenzhen.aliyuncs.com/img/20241210223930372.png" alt="死信队列"></p>
+<p>在实际的应用中，可能会遇到一些消息无法被消费者正确处理的情况，比如消息格式错误、消费者处理失败等。如果这些消息一直留在原始队列中，会导致队列堵塞，影响其他消息的消费。为了解决这个问题，RabbitMQ 引入了死信队列的概念</p>
+<p>DLX 交换机 一般在消息处于 reject 且不放回队列时触发，或者 TTL 时间过期后</p>
+<p>config:<br/><br><code><br>@Configuration<br>public class RabbitConfiguration &#123;<br>    @Bean("directDlExchange") // 定义死信交换机<br>    public Exchange exchange()&#123;<br>        return ExchangeBuilder.directExchange("dlx.direct").build()<br>    &#125;<br>    @Bean("yydsDlQueue")<br>    public Queue queue()&#123;<br>        return QueueBuilder<br>        .nonDurable("dl-yyds")<br>        .build();<br>    &#125;<br>    @Bean("dlBinding")<br>    public Binding binding (@Qualifier("directDlExchange") Exchange exchange,<br>                            @Qualifier("yydsDlQueue") Queue queue)&#123;<br>                                return BindingBuilder<br>                                .bind(queue) //绑定队列<br>                                .to(exhcange) //绑定交换机<br>                                .with("dl-yyds") //指定交换机的路由<br>                                .noargs()<br>                            &#125;<br>    @Bean("directExchange")<br>    public Exchange exchange()&#123;<br>        return ExchangeBuilder.directExchange("amq.direct").build()<br>    &#125;<br>    @Bean("yydsQueue")<br>    public Queue queue()&#123;<br>        return QueueBuilder<br>        .deadLetterExchange("dlx.direct")<br>        .deadLetterRoutingKey("dl-yyds")<br>        .nonDurable("yyds") //非持久化类型，持久化将存储在本地磁盘上<br>        .build();<br>    &#125;<br>    @Bean("binding")<br>    public Binding binding (@Qualifier("directExchange") Exchange exchange,<br>                            @Qualifier("yydsQueue") Queue queue)&#123;<br>                                return BindingBuilder<br>                                .bind(queue) //绑定队列<br>                                .to(exhcange) //绑定交换机<br>                                .with("my-yyds") //指定交换机的路由<br>                                .noargs()<br>                            &#125;<br>&#125;<br></code><br><br/><br>消费者:<br/><br><code><br>@Component<br>public class TestListener &#123;<br>@RabbitListener(queue = "dl-yyds") //绑定死信消息队列<br>public void test(Message message)&#123;<br>System.out.println(new String(message.getBody())) //将会打印"Hello World!"<br>&#125;<br>&#125;</code></p>
+<h3 id="工作队列模式"><a href="#工作队列模式" class="headerlink" title="工作队列模式"></a>工作队列模式</h3><p><img data-src="https://kaoswater1.oss-cn-shenzhen.aliyuncs.com/img/20241210224606112.png" alt="工作队列"></p>
+<p>设置两个listener即可，如果没有预先存储，多个listner是以轮询的方式进行消费<br/><br>如果程序运行前队列已经有消息，则根据<em>precount</em>的缺省值进行分配，<em>precount</em>为1时则等同于轮询</p>
+<h2 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h2><blockquote>
+<p>代码来源为B站UP  <a href="https://space.bilibili.com/37737161">青空の霞光</a></p>
+</blockquote>
+]]></content>
+      <tags>
+        <tag>编程</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>git的使用</title>
     <url>/2024/12/09/git%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<h1 id="git的使用"><a href="#git的使用" class="headerlink" title="git的使用"></a>git的使用</h1><h3 id="git简介"><a href="#git简介" class="headerlink" title="git简介"></a>git简介</h3><p>Git 是一个开源的分布式版本控制系统，用于敏捷高效地处理任何或小或大的项目。</p>
