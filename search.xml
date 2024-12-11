@@ -1,40 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>git的使用</title>
-    <url>/2024/12/09/git%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h1 id="git的使用"><a href="#git的使用" class="headerlink" title="git的使用"></a>git的使用</h1><h3 id="git简介"><a href="#git简介" class="headerlink" title="git简介"></a>git简介</h3><p>Git 是一个开源的分布式版本控制系统，用于敏捷高效地处理任何或小或大的项目。</p>
-<span id="more"></span>
-
-<p>Git 是 Linus Torvalds 为了帮助管理 Linux 内核开发而开发的一个开放源码的版本控制软件。</p>
-<p>Git 与常用的版本控制工具 CVS, Subversion 等不同，它采用了分布式版本库的方式，不必服务器端软件支持。</p>
-<h3 id="git的基本语法"><a href="#git的基本语法" class="headerlink" title="git的基本语法"></a>git的基本语法</h3><h4 id="git的提交与修改"><a href="#git的提交与修改" class="headerlink" title="git的提交与修改"></a>git的提交与修改</h4><ul>
-<li><code>git add</code> 将文件提交到暂存区</li>
-<li><code>git commit -m &quot;Your description&quot;</code> 添加提交的信息</li>
-<li><code>git push</code> 提交上传远程代码并合并</li>
-<li><code>git log</code> 显示操作日志</li>
-<li><code>git reset -- hard</code> 回退版本</li>
-<li><code>git clear</code> 清除控制台信息</li>
-<li><code>git reflog</code> 打印信息</li>
-<li><code>pwd</code> 显示当前工作目录</li>
-</ul>
-<h4 id="git的远程操作与分支操作"><a href="#git的远程操作与分支操作" class="headerlink" title="git的远程操作与分支操作"></a>git的远程操作与分支操作</h4><ul>
-<li><code>git branch</code> 查看当前目录存在的分支</li>
-<li><code>git branch &quot;name&quot; -d</code> 删除分支</li>
-<li><code>git checkout &quot;name&quot;</code> 切换分支</li>
-<li><code>git pull</code> 下载远程代码并合并</li>
-<li><code>git clone url</code> 克隆仓库到本地</li>
-<li><code>git remote add origin url</code> 添加远程仓库</li>
-<li><code>git push origin master</code> 提交本地分支</li>
-<li><code>git fetch</code> 获取远程仓库信息</li>
-</ul>
-<p><img data-src="https://kaoswater1.oss-cn-shenzhen.aliyuncs.com/img/20241209154617048.jpg" alt="插图1"></p>
-]]></content>
-      <tags>
-        <tag>编程</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>RabbitMQ的使用</title>
     <url>/2024/12/10/RabbitMQ%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<h1 id="RabbitMQ-简介"><a href="#RabbitMQ-简介" class="headerlink" title="RabbitMQ 简介"></a>RabbitMQ 简介</h1><p>RabbitMQ 是一个消息代理：它接收和转发消息。您可以把它想象成一个邮局：当您将要寄出的邮件放入邮箱时，您可以确信信使最终会将邮件送到收件人手中。在这个比喻中，RabbitMQ 就是邮箱、邮局和信使。</p>
@@ -72,6 +38,40 @@
 <h2 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h2><blockquote>
 <p>代码来源为B站UP  <a href="https://space.bilibili.com/37737161">青空の霞光</a></p>
 </blockquote>
+]]></content>
+      <tags>
+        <tag>编程</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>git的使用</title>
+    <url>/2024/12/09/git%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h1 id="git的使用"><a href="#git的使用" class="headerlink" title="git的使用"></a>git的使用</h1><h3 id="git简介"><a href="#git简介" class="headerlink" title="git简介"></a>git简介</h3><p>Git 是一个开源的分布式版本控制系统，用于敏捷高效地处理任何或小或大的项目。</p>
+<span id="more"></span>
+
+<p>Git 是 Linus Torvalds 为了帮助管理 Linux 内核开发而开发的一个开放源码的版本控制软件。</p>
+<p>Git 与常用的版本控制工具 CVS, Subversion 等不同，它采用了分布式版本库的方式，不必服务器端软件支持。</p>
+<h3 id="git的基本语法"><a href="#git的基本语法" class="headerlink" title="git的基本语法"></a>git的基本语法</h3><h4 id="git的提交与修改"><a href="#git的提交与修改" class="headerlink" title="git的提交与修改"></a>git的提交与修改</h4><ul>
+<li><code>git add</code> 将文件提交到暂存区</li>
+<li><code>git commit -m &quot;Your description&quot;</code> 添加提交的信息</li>
+<li><code>git push</code> 提交上传远程代码并合并</li>
+<li><code>git log</code> 显示操作日志</li>
+<li><code>git reset -- hard</code> 回退版本</li>
+<li><code>git clear</code> 清除控制台信息</li>
+<li><code>git reflog</code> 打印信息</li>
+<li><code>pwd</code> 显示当前工作目录</li>
+</ul>
+<h4 id="git的远程操作与分支操作"><a href="#git的远程操作与分支操作" class="headerlink" title="git的远程操作与分支操作"></a>git的远程操作与分支操作</h4><ul>
+<li><code>git branch</code> 查看当前目录存在的分支</li>
+<li><code>git branch &quot;name&quot; -d</code> 删除分支</li>
+<li><code>git checkout &quot;name&quot;</code> 切换分支</li>
+<li><code>git pull</code> 下载远程代码并合并</li>
+<li><code>git clone url</code> 克隆仓库到本地</li>
+<li><code>git remote add origin url</code> 添加远程仓库</li>
+<li><code>git push origin master</code> 提交本地分支</li>
+<li><code>git fetch</code> 获取远程仓库信息</li>
+</ul>
+<p><img data-src="https://kaoswater1.oss-cn-shenzhen.aliyuncs.com/img/20241209154617048.jpg" alt="插图1"></p>
 ]]></content>
       <tags>
         <tag>编程</tag>
