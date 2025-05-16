@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-bounce.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="AOP简介 AOP 是 Aspect Oriented Programming（面向切面编程）的首字母缩写，是一种编程范式，它的目的是通过分离横切关注点来提升代码的模块化程度。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring的AOP">
+<meta property="og:url" content="http://example.com/2025/05/16/Spring%E7%9A%84AOP/index.html">
+<meta property="og:site_name" content="Kao&#39;s Blog">
+<meta property="og:description" content="AOP简介 AOP 是 Aspect Oriented Programming（面向切面编程）的首字母缩写，是一种编程范式，它的目的是通过分离横切关注点来提升代码的模块化程度。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://imgur.la/images/2025/05/16/1aa63ad3b461490c9.png">
+<meta property="og:image" content="https://imgur.la/images/2025/05/16/PCD.png">
+<meta property="article:published_time" content="2025-05-16T13:49:03.000Z">
+<meta property="article:modified_time" content="2025-05-16T14:54:32.141Z">
+<meta property="article:author" content="Kaos">
+<meta property="article:tag" content="编程">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://imgur.la/images/2025/05/16/1aa63ad3b461490c9.png">
+
+
+<link rel="canonical" href="http://example.com/2025/05/16/Spring%E7%9A%84AOP/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2025/05/16/Spring%E7%9A%84AOP/","path":"2025/05/16/Spring的AOP/","title":"Spring的AOP"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Spring的AOP | Kao's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Kao's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Kao's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">YU</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#AOP%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">AOP简介</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#AOP%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86"><span class="nav-number">1.1.</span> <span class="nav-text">AOP的实现原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#JDK%E7%9A%84%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86"><span class="nav-number">1.1.1.</span> <span class="nav-text">JDK的动态代理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E-AspectJ-%E7%9A%84%E9%85%8D%E7%BD%AE"><span class="nav-number">1.2.</span> <span class="nav-text">基于 @AspectJ 的配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A3%B0%E6%98%8E%E5%88%87%E5%85%A5%E7%82%B9"><span class="nav-number">1.2.1.</span> <span class="nav-text">声明切入点</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Kaos"
+      src="/images/avator.png">
+  <p class="site-author-name" itemprop="name">Kaos</p>
+  <div class="site-description" itemprop="description">用作个人博客记录日常</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/1funan" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;1funan" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/zi-liu-zi-liu-98" title="知乎 → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;zi-liu-zi-liu-98" rel="noopener me" target="_blank"><i class="fab zhihu fa-fw"></i>知乎</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/dddogcloud@gmail.com" title="E-Mail → dddogcloud@gmail.com" rel="noopener me"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://space.bilibili.com/226325019?spm_id_from=333.1007.0.0" title="哔哩哔哩 → https:&#x2F;&#x2F;space.bilibili.com&#x2F;226325019?spm_id_from&#x3D;333.1007.0.0" rel="noopener me" target="_blank"><i class="fab blbl fa-fw"></i>哔哩哔哩</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2025/05/16/Spring%E7%9A%84AOP/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avator.png">
+      <meta itemprop="name" content="Kaos">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Kao's Blog">
+      <meta itemprop="description" content="用作个人博客记录日常">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Spring的AOP | Kao's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Spring的AOP
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2025-05-16 21:49:03 / 修改时间：22:54:32" itemprop="dateCreated datePublished" datetime="2025-05-16T21:49:03+08:00">2025-05-16</time>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>875</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>3 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="AOP简介"><a href="#AOP简介" class="headerlink" title="AOP简介"></a>AOP简介</h1><p> AOP 是 Aspect Oriented Programming（面向切面编程）的首字母缩写，是一种编程范式，它的目的是通过分离横切关注点来提升代码的模块化程度。</p>
+<span id="more"></span>
+
+<h2 id="AOP的实现原理"><a href="#AOP的实现原理" class="headerlink" title="AOP的实现原理"></a>AOP的实现原理</h2><p>在 Spring Framework中，虽然 Spring AOP 的使用方式发生过很大的变化，但其背后的动态代理技术并没有改变。</p>
+<p>动态代理就是在运行时动态地为对象创建代理的技术。在 Spring 中，由 AOP 框架创建、用来实现切面的对象为 AOP 代理，一般采用JDK动态代理或者 CGLIB 代理，两者在使用的区别具体如下图所示：</p>
+<p><img data-src="https://imgur.la/images/2025/05/16/1aa63ad3b461490c9.png" alt="动态代理图示"></p>
+<p>被切面拦截的对象成为<strong>目标对象</strong>或<strong>通知对象</strong>，因为 Spring 用了动态代理，所以目标对象就是要被代理的对象。</p>
+<h3 id="JDK的动态代理"><a href="#JDK的动态代理" class="headerlink" title="JDK的动态代理"></a>JDK的动态代理</h3><p>下面以 JDK 动态代理为例，给出调用 Hello 的主流程</p>
+<ul>
+<li>要被代理的 Hello 接口及其实现片段</li>
+</ul>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">Hello</span> &#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">say</span>()</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">SpringHello</span> <span class="title">imoplements</span> <span class="title">Hello</span>&#123;</span><br><span class="line">    @Override</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">say</span>()</span>&#123;</span><br><span class="line">        System.<span class="keyword">out</span>.println(<span class="string">&quot;Hello Spring&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>随后，我们可以设计一个 InvocationHandler ，于是对代理对象的调用转为调用 invoke 方法，传入的参数中就包含了所调用的方法和实际的参数。</p>
+<ul>
+<li>在 <code>Hello.say()</code> 前后打印日志的 InvocationHandler</li>
+</ul>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> LogHandler <span class="keyword">implements</span> InvocationHandler &#123;</span><br><span class="line">    <span class="keyword">private</span> Hello <span class="keyword">source</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> LogHandler(Hello <span class="keyword">source</span>)&#123;</span><br><span class="line">        <span class="keyword">this</span>.<span class="keyword">source</span> = <span class="keyword">source</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    @Override</span><br><span class="line">    <span class="keyword">public</span> Object invoke(Object proxy,Method method,Object[] args)thorws Throwble&#123;</span><br><span class="line">        System.out.<span class="keyword">println</span>(<span class="string">&quot;Ready to say something&quot;</span>)</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            <span class="keyword">return</span> mehod.invoke(<span class="keyword">source</span>,args)</span><br><span class="line">        &#125;<span class="keyword">finally</span>&#123;</span><br><span class="line">            System.out.prinln(<span class="string">&quot;Already say something&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最后，再通过 <code>Proxy.newProxyInstance()</code> 为 Hello 实现类的 Bean 实例创建使用 LogHandler 的代理，如下面的代码所示</p>
+<ul>
+<li>创建 JDK 动态代理并调用方法</li>
+</ul>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Application</span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="built_in">void</span> <span class="title function_">main</span>(<span class="params"><span class="title class_">String</span>[] args</span>)&#123;</span><br><span class="line">        <span class="title class_">Hello</span> original = <span class="keyword">new</span> <span class="title class_">Hello</span>();</span><br><span class="line">        <span class="title class_">Hello</span> target = (<span class="title class_">Hello</span>) <span class="title class_">Proxy</span>.<span class="title function_">newProxyInstance</span>(<span class="title class_">Hello</span>.<span class="property">class</span>.<span class="title function_">getClassLoader</span>(),original.<span class="title function_">getClass</span>().<span class="title function_">getInterfaces</span>(),<span class="keyword">new</span> <span class="title class_">LogHandler</span>(original));</span><br><span class="line">        target.<span class="title function_">say</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>通过 <code>Proxy.newProxyInstance()</code> 创建 <code>interface</code> 实例，它需要3个参数：</p>
+<ol>
+<li>使用的 <code>ClassLoader</code> ，通常就是接口类的 <code>ClassLoader</code> ；</li>
+<li>需要实现的接口数组，至少需要传入一个接口仅需；</li>
+<li>用来处理接口方法调用的 <code>InvocationHandler</code> 实例；<br>最后再将 Proxy对象强制转换为 Hello 接口对象<br>这段代码的运行效果如下：</li>
+</ol>
+<blockquote>
+<p>Ready to say something<br>Hello Spring<br>Already say something</p>
+</blockquote>
+<p>tips:</p>
+<ul>
+<li>若是采用 CGLIB 代理是创建 ObjenesisCglibAopProxy,如果是 JDK 动态代理，AopProxyFactory 会创建 JdkDynamicAopProxy。</li>
+</ul>
+<h2 id="基于-AspectJ-的配置"><a href="#基于-AspectJ-的配置" class="headerlink" title="基于 @AspectJ 的配置"></a>基于 @AspectJ 的配置</h2><p>首先，需要引入 <code>org.springframework:spring-aspects</code> 依赖，以便使用 Aspect 相关的注解和功能。要开启 @AspectJ 支持，可以在 Java 配置类上增加 <code>@EnableAspectAutoProxy</code> 注解，比如像下面这样：</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@Configuration</span></span><br><span class="line"><span class="variable">@EnableAspectJAutoProxy</span></span><br><span class="line">public class Config&#123;...&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>@EnableAspectJAutoProxy</code> 有两个属性，<code>proxyTargetClass</code> 用于选择是否开启基于类的代理，即是否使用 CGLIB 来做代理；<code>exposeProxy</code> 用于选择是否将代理对象暴露到 AopContext 中，两者默认值都是 false</p>
+<h3 id="声明切入点"><a href="#声明切入点" class="headerlink" title="声明切入点"></a>声明切入点</h3><p>注解方式的切入点声明由两部分组成–切入点表达式和切入点方法签名。前者用来描述要匹配的连接点，后者可以用来引用切入点，方便切入点的复用，具体如下面代码所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HelloPointCut</span> &#123;</span><br><span class="line">    <span class="meta">@PointCut(&quot;excution (public * say())&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">sayOperation</span><span class="params">()</span>&#123;&#125; <span class="comment">//执行public的say()方法</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>@Pointcut 注解中使用的就是 AspectJ5 的表达式，其中一些常用的 PCD （pointcut designator，切入点标识符）如下图所示：<br><img data-src="https://imgur.la/images/2025/05/16/PCD.png" alt="常用的PCD"></p>
+<p>因为 excution用的非常多，下面详细描述一下它的表达式，[]代表可选项，&lt;&gt;代表必选项：</p>
+<blockquote>
+<p>execution([修饰符] &lt;返回类型&gt; [全限定类名].&lt;方法&gt;(&lt;参数&gt;)[异常])</p>
+</blockquote>
+
+    </div>
+    <div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------已经到底啦！<i class="fa fa-paw"></i>-------------</div>
+    
+</div>
+
+  
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag"><i class="fa fa-tag"></i> 编程</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/12/10/RabbitMQ%E7%9A%84%E4%BD%BF%E7%94%A8/" rel="prev" title="RabbitMQ的使用">
+                  <i class="fa fa-angle-left"></i> RabbitMQ的使用
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Kaos</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">2k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">7 分钟</span>
+  </span>
+</div>
+<!-- <br /> -->
+<!-- 网站运行时间的设置 -->
+<span id="timeDate">载入天数...</span>
+<!-- <span id="times">载入时分秒...</span> -->
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("7/17/2023 8:00:00");//此处修改你的建站时间或者网站上线时间
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); 
+        if(String(snum).length ==1 ){snum = "0" + snum;}
+        // var times = document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "+hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+    }
+setInterval("createtime()",250);
+</script>
+
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+
+  
+
+
+
+
+
+</body>
+</html>
